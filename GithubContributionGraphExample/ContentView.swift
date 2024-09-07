@@ -20,10 +20,14 @@ struct ContentView: View {
             .clipShape(RoundedRectangle(cornerRadius: 4).inset(by: 2))
             .foregroundStyle(by: .value("Count", contribution.count))
         }
+        .chartPlotStyle { content in
+            content
+                .aspectRatio(aspectRatio, contentMode: .fit)
+        }
         .chartForegroundStyleScale(range: Gradient(colors: colors))
         .chartXAxis {
-            AxisMarks(position: .top) { value in
-                AxisValueLabel()
+            AxisMarks(position: .top, values: .stride(by: .month)) {
+                AxisValueLabel(format: .dateTime.month())
                     .foregroundStyle(Color(.label))
             }
         }
@@ -38,10 +42,6 @@ struct ContentView: View {
             }
         }
         .chartYScale(domain: .automatic(includesZero: false, reversed: true))
-        .chartPlotStyle { content in
-            content
-                .aspectRatio(aspectRatio, contentMode: .fit)
-        }
         .chartLegend {
             HStack(spacing: 4) {
                 Text("Less")
@@ -60,6 +60,23 @@ struct ContentView: View {
     }
 
     // MARK: - Private
+
+    private func weekday(for date: Date) -> Int {
+        let weekday = Calendar.current.component(.weekday, from: date)
+        let adjustedWeekday = (weekday == 1) ? 7 : (weekday - 1)
+        return adjustedWeekday
+    }
+
+    private var aspectRatio: Double {
+        if contributions.isEmpty {
+            return 1
+        }
+        let firstDate = contributions.first!.date
+        let lastDate = contributions.last!.date
+        let firstWeek = Calendar.current.component(.weekOfYear, from: firstDate)
+        let lastWeek = Calendar.current.component(.weekOfYear, from: lastDate)
+        return Double(lastWeek - firstWeek + 1) / 7
+    }
 
     private var colors: [Color] {
         (0...10).map { index in
@@ -80,23 +97,6 @@ struct ContentView: View {
         shortWeekdaySymbols.append(sunday)
         return shortWeekdaySymbols
     }()
-
-    private var aspectRatio: Double {
-        if contributions.isEmpty {
-            return 1
-        }
-        let firstDate = contributions.first!.date
-        let lastDate = contributions.last!.date
-        let firstWeek = Calendar.current.component(.weekOfYear, from: firstDate)
-        let lastWeek = Calendar.current.component(.weekOfYear, from: lastDate)
-        return Double(lastWeek - firstWeek + 1) / 7
-    }
-
-    private func weekday(for date: Date) -> Int {
-        let weekday = Calendar.current.component(.weekday, from: date)
-        let adjustedWeekday = (weekday == 1) ? 7 : (weekday - 1)
-        return adjustedWeekday
-    }
 }
 
 #Preview(traits: .sizeThatFitsLayout) {

@@ -5,8 +5,9 @@
 import Foundation
 
 struct Contribution: Identifiable {
+    
     let date: Date
-    var count: Int
+    let count: Int
 
     var id: Date {
         date
