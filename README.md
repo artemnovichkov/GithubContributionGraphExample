@@ -1,6 +1,6 @@
 # Github Contribution Graph Example
 
-An example project for [Github Contribution Graph with Swift Charts](https://www.artemnovichkov.com/blog/github-contribution-graph-swift-charts) article.
+An example project for [Github contribution graph with Swift Charts](https://www.artemnovichkov.com/blog/github-contribution-graph-swift-charts) article.
 
 [![Build](https://github.com/artemnovichkov/GithubContributionGraphExample/actions/workflows/build.yml/badge.svg)](https://github.com/artemnovichkov/GithubContributionGraphExample/actions/workflows/build.yml)
 
