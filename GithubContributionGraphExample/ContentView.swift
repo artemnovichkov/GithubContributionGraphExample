@@ -73,9 +73,8 @@ struct ContentView: View {
         }
         let firstDate = contributions.first!.date
         let lastDate = contributions.last!.date
-        let firstWeek = Calendar.current.component(.weekOfYear, from: firstDate)
-        let lastWeek = Calendar.current.component(.weekOfYear, from: lastDate)
-        return Double(lastWeek - firstWeek + 1) / 7
+        let weeksCount = Calendar.current.dateComponents([.weekOfYear], from: firstDate, to: lastDate).weekOfYear!
+        return Double(weeksCount + 1) / 7
     }
 
     private var colors: [Color] {
