@@ -24,7 +24,7 @@ struct ContentView: View {
             content
                 .aspectRatio(aspectRatio, contentMode: .fit)
         }
-        .chartForegroundStyleScale(range: Gradient(colors: colors))
+        .chartForegroundStyleScale(domain: 0...10, range: Gradient(colors: colors))
         .chartXAxis {
             AxisMarks(position: .top, values: .stride(by: .month)) {
                 AxisValueLabel(format: .dateTime.month())
